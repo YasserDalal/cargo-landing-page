@@ -31,7 +31,7 @@ function HeroImage({ className, Hero }) {
 export default function IntroSection({ className }) {
   return (
     <div className={className}>
-      <Intro className='min-[1130px]:max-w-[590px] pt-[30px] min-[1130px]:pr-5 max-[1130px]:mt-24 flex justify-center' />
+      <Intro className='min-[1130px]:max-w-[590px] pt-[30px] min-[1130px]:pr-5 max-[1130px]:mt-16 flex justify-center' />
       <HeroImage
         Hero={Hero}
         className={
