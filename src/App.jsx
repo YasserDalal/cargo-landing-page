@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import Header from './components/Header'
 import Home from './pages/home/Home'
 import Center from './components/Center'
+import Footer from './components/Footer'
 
 export default function App() {
   return (
@@ -11,8 +12,12 @@ export default function App() {
         <Routes path='/'>
           <Route index element={<Home className=' text-white px-1 bg-black'/>}/>
           <Route path='home' element={<Home className=' text-white px-1 bg-black' />} />
+
+          {/* Display an empty page (not found from routes) */}
+          <Route path='/*' element={<div className=' text-white px-1 bg-neutral-900 h-screen flex justify-center items-center'>Empty</div>} />
         </Routes>
       </Center>
+      <Footer className='flex justify-center items-center bg-black text-white py-10 h-auto z-50'/>
     </div>
   )
 }
