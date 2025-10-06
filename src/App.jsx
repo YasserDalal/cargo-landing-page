@@ -4,6 +4,7 @@ import Home from './pages/home/Home'
 import Center from './components/Center'
 import Footer from './components/Footer'
 import Services from './pages/services/Services'
+import Contacts from './pages/contacts/Contacts'
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route index element={<Home className=' text-white px-1 bg-black'/>}/>
           <Route path='home' element={<Home className=' text-white px-1 bg-black' />} />
           <Route path='services' element={<Services className=' flex justify-center text-white px-1 bg-black' />} />
+          <Route path='contacts' element={<Contacts className=' flex justify-center text-white px-1 bg-black' />} />
 
           {/* Display an empty page (not found from routes) */}
           <Route path='/*' element={<div className=' text-white px-1 bg-neutral-900 h-screen flex justify-center items-center'>Empty</div>} />

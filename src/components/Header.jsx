@@ -36,7 +36,7 @@ const navLinks = [
     imgSrcBlue: PhoneIconBlue,
     alt: "Phone Icon",
     title: "Contacts",
-    to: "contact",
+    to: "contacts",
   },
 ];
 
@@ -152,7 +152,7 @@ function Navigations({ className }) {
       <NavLink className={handleActive} to='services'>
         <span>Services</span>
       </NavLink>
-      <NavLink className={handleActive} to='contact'>
+      <NavLink className={handleActive} to='contacts'>
         <span>Contacts</span>
       </NavLink>
     </nav>
