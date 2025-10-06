@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Hero from "../../assets/Hero.png";
 
 function Intro({ className }) {
@@ -12,9 +13,9 @@ function Intro({ className }) {
           expert customs brokerage and freight forwarding for land, air, and sea
           cargo, ensuring smooth and efficient delivery worldwide.
         </p>
-        <button className='pb-[10px] pt-[9px] px-8 text-[#fafafa] text-sm font-medium bg-[#4e53b7] hover:bg-[#656ac683] transition-all duration-100 rounded-md gap-x-2 text-nowrap w-[200px] cursor-pointer'>
+        <Link to='/contacts' className='flex justify-center pb-[10px] pt-[9px] px-8 text-[#fafafa] text-sm font-medium bg-[#4e53b7] hover:bg-[#656ac683] transition-all duration-100 rounded-md gap-x-2 text-nowrap w-[200px] cursor-pointer'>
           Request a Quote
-        </button>
+        </Link>
       </div>
     </div>
   );

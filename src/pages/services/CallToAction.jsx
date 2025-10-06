@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Container({ className, children }) {
   return <div className={className}>{children}</div>;
 }
@@ -17,7 +19,7 @@ function Message({ className, children }) {
 }
 
 function Button({ className, children }) {
-  return <button className={className}>{children}</button>;
+  return <Link to='/contacts' className={className}>{children}</Link>;
 }
 
 export default function CallToAction() {
@@ -40,7 +42,7 @@ export default function CallToAction() {
         </Message>
         <Button
           className={
-            "bg-[#00078a] hover:bg-[#242dd2] cursor-pointer transition-all duration-150 rounded-md gap-x-2 text-nowrap w-[200px] py-3 px-8 text-sm font-medium text-white mt-5"
+            "flex justify-center bg-[#00078a] hover:bg-[#242dd2] cursor-pointer transition-all duration-150 rounded-md gap-x-2 text-nowrap w-[200px] py-3 px-8 text-sm font-medium text-white mt-5"
           }
         >
           Request a Quote
