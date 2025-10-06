@@ -34,7 +34,7 @@ function ServicesCards({ className, icon, title, description, imageIcon, alt }) 
         </p>
       </div>
       <div className='pt-10'>
-        <button className='text-center w-full bg-[#068d5e] hover:bg-[#08b276] transition-all duration-100 py-2 rounded-md'>
+        <button className='text-center w-full bg-[#018758] hover:bg-[#01a36b] transition-all duration-100 py-2 rounded-md cursor-pointer'>
           Learn More
         </button>
       </div>

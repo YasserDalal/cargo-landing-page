@@ -12,7 +12,7 @@ function Intro({ className }) {
           expert customs brokerage and freight forwarding for land, air, and sea
           cargo, ensuring smooth and efficient delivery worldwide.
         </p>
-        <button className='pb-[10px] pt-[9px] px-8 text-sm font-medium bg-[#636AE8] hover:bg-[#4e53b7] transition-all duration-100 rounded-md gap-x-2 text-nowrap w-[200px]'>
+        <button className='pb-[10px] pt-[9px] px-8 text-[#fafafa] text-sm font-medium bg-[#4e53b7] hover:bg-[#656ac683] transition-all duration-100 rounded-md gap-x-2 text-nowrap w-[200px] cursor-pointer'>
           Request a Quote
         </button>
       </div>
