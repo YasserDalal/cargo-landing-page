@@ -1,0 +1,48 @@
+:root {
+  --pointer-x: 50%;
+  --pointer-y: 60%;
+  --pointer-from-center: 0;
+  --pointer-from-top: 0.5;
+  --pointer-from-left: 0.5;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+}
+
+.pc-card-wrapper {
+  perspective: 500px;
+}
+
+.pc-card {
+  transition: transform 0.3s ease;
+  transform: rotateX(0deg) rotateY(0deg);
+  height: 100%;
+}
+
+.pc-card:hover {
+  transition: none;
+  transform: rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
+}
+
+.pc-card {
+  position: relative;
+}
+
+.pc-flashlight {
+  position: absolute;
+  pointer-events: none;
+  width: 200px; /* laki ng spotlight */
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  mix-blend-mode: screen; /* pwede rin color-dodge */
+  transform: translate(-50%, -50%);
+  transition: none; /* para hindi smooth, instant na lumipat */
+  opacity: 0;
+}
+.pc-card.active .pc-flashlight {
+  opacity: 1;
+}
