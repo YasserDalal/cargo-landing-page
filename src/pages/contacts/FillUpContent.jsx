@@ -1,4 +1,11 @@
-import React from "react";
+import useUserDetails from "../../hooks/useUserDetails";
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import Select from "react-select";
 
 function Intro({ className }) {
   return (
@@ -18,12 +25,15 @@ function FillUpForm({ className, children }) {
   return <form className={className}>{children}</form>;
 }
 
-function NameInput() {
+function NameInput({ nameRef }) {
   return (
     <fieldset className='fieldset'>
       <legend className='fieldset-legend text-[14px]'>Full Name</legend>
       <input
+        ref={nameRef}
         type='text'
+        name='full name'
+        title='full name'
         className='input w-full border-0 bg-gray-700'
         placeholder='Type here'
       />
@@ -31,11 +41,20 @@ function NameInput() {
   );
 }
 
-function Email() {
+function EmailInput({ emailRef }) {
+  const [validity, setValidity] = useState("");
+  const [email, setEmail] = useState("");
+  useEffect(() => {
+    if (email.endsWith(".com") || email.endsWith(".net")) {
+      setValidity("input-success");
+    } else {
+      setValidity("input-error");
+    }
+  }, [email]);
   return (
     <fieldset className='fieldset'>
       <legend className='fieldset-legend text-[14px]'>Email Address</legend>
-      <label className='input validator w-full bg-gray-700'>
+      <label className={`input ${validity} w-full bg-gray-700 `}>
         <svg
           className='h-[1.1em] opacity-50'
           xmlns='http://www.w3.org/2000/svg'
@@ -52,14 +71,29 @@ function Email() {
             <path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'></path>
           </g>
         </svg>
-        <input type='email' placeholder='mail@site.com' required />
+        <input
+          className='pl-2'
+          type='email'
+          placeholder='mail@site.com'
+          name='email'
+          ref={emailRef}
+          title='email'
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
       </label>
-      <div className='validator-hint hidden'>Enter valid email address</div>
+      <div
+        className={`${
+          validity === "input-success" || email === "" ? "hidden" : "block text-[#ff637d]"
+        }`}
+      >
+        Enter valid email address
+      </div>
     </fieldset>
   );
 }
 
-function Phone() {
+function Phone({ phoneRef }) {
   return (
     <fieldset className='fieldset'>
       <legend className='fieldset-legend text-[14px]'>Phone Number</legend>
@@ -83,14 +117,17 @@ function Phone() {
           </g>
         </svg>
         <input
+          ref={phoneRef}
           type='tel'
-          className='tabular-nums'
+          name='phone'
+          autoComplete='phone'
+          className='tabular-nums pl-2'
           required
           placeholder='+973'
           pattern='[0-9]*'
           minLength='8'
           maxLength='8'
-          title='Must be 10 digits'
+          title='Must be 8 digits'
         />
       </label>
       <p className='validator-hint hidden'>Must be 8 digits</p>
@@ -98,37 +135,57 @@ function Phone() {
   );
 }
 
-function ClearanceType() {
+function ClearanceType({ clearanceRef }) {
+  const clearanceTypes = useMemo(() => {
+    return [
+      { value: "Land Cargo Clearance", label: "Land Cargo Clearance" },
+      { value: "Sea Cargo Clearance", label: "Sea Cargo Clearance" },
+      { value: "Air Cargo Clearance", label: "Air Cargo Clearance" },
+    ];
+  }, []);
   return (
     <fieldset className='fieldset'>
       <legend className='fieldset-legend text-[14px]'>Clearance Type</legend>
-      <div className='dropdown bg-gray-700 h-10 rounded-[0.250rem]'>
-        <div
-          tabIndex={0}
-          className='w-full flex items-center h-full text-[16px] cursor-pointer px-4'
-        >
-          <a className='select-none'>Select a clearance type</a>
-        </div>
-        <ul
-          tabIndex={0}
-          className='dropdown-content menu bg-gray-900 rounded-box z-1 shadow-sm w-full px-2 text-[16px]'
-        >
-          <li>
-            <a>Land Cargo Clearance</a>
-          </li>
-          <li>
-            <a>Air Cargo Clearance</a>
-          </li>
-          <li>
-            <a>Sea Cargo Clearance</a>
-          </li>
-        </ul>
-      </div>
+      <Select
+        ref={clearanceRef}
+        placeholder='Select Clearance Type'
+        styles={{
+          control: (base) => ({
+            ...base,
+            backgroundColor: "#374151",
+            border: "1px solid #4B5563",
+            color: "#F9FAFB",
+          }),
+          menu: (base) => ({
+            ...base,
+            backgroundColor: "#1F2937",
+          }),
+          option: (base, state) => ({
+            ...base,
+            backgroundColor: state.isFocused ? "#4B5563" : "#1F2937",
+            color: "#F9FAFB",
+            cursor: "pointer",
+          }),
+          singleValue: (base) => ({
+            ...base,
+            color: "#F9FAFB",
+          }),
+          placeholder: (base) => ({
+            ...base,
+            color: "#F9FAFB", // white placeholder
+          }),
+        }}
+        options={clearanceTypes}
+        components={{
+          IndicatorSeparator: () => null, // remove separator line
+        }}
+        isSearchable={false}
+      />
     </fieldset>
   );
 }
 
-function Message({ className }) {
+function Message({ className, messageRef }) {
   return (
     <fieldset className={className}>
       <legend className='fieldset-legend text-[14px]'>
@@ -141,6 +198,7 @@ function Message({ className }) {
           e.target.style.height = "auto";
           e.target.style.height = `${e.target.scrollHeight}px`;
         }}
+        ref={messageRef}
         name='message'
         id='message'
       ></textarea>
@@ -148,25 +206,49 @@ function Message({ className }) {
   );
 }
 
-function SubmitButton({ className }) {
+function SubmitButton({ className, handleSubmit }) {
   return (
-    <div className={className} typeof='submit'>
+    <div className={className} typeof='submit' onClick={handleSubmit}>
       <span>Submit a Request</span>
     </div>
   );
 }
 
 export default function FillUpContent({ className }) {
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const phoneRef = useRef(null);
+  const messageRef = useRef(null);
+  const clearanceRef = useRef(null);
+
+  const [userDetails, setUserDetails] = useUserDetails();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUserDetails({
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+      phone: phoneRef.current.value,
+      message: messageRef.current.value,
+      clearance: clearanceRef.current.value,
+    });
+  };
+
+  useEffect(() => console.log(userDetails), [userDetails]);
+
   return (
     <div className={className}>
       <Intro className='flex flex-col gap-2' />
       <FillUpForm className='flex flex-col gap-2'>
-        <NameInput />
-        <Email />
-        <Phone />
-        <ClearanceType />
-        <Message className='fieldset mt-2' />
-        <SubmitButton className='btn bg-[#027eab] hover:bg-[#025675] text-lg h-12 border-0 flex justify-center items-center rounded-[6px] mt-5 cursor-pointer' />
+        <NameInput nameRef={nameRef} />
+        <EmailInput emailRef={emailRef} />
+        <Phone phoneRef={phoneRef} />
+        <ClearanceType clearanceRef={clearanceRef} />
+        <Message messageRef={messageRef} className='fieldset mt-2' />
+        <SubmitButton
+          className='btn bg-[#027eab] hover:bg-[#025675] text-lg h-12 border-0 flex justify-center items-center rounded-[6px] mt-5 cursor-pointer'
+          handleSubmit={handleSubmit}
+        />
       </FillUpForm>
     </div>
   );
