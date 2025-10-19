@@ -9,7 +9,7 @@ import Contacts from './pages/contacts/Contacts'
 export default function App() {
   return (
     <div className='min-w-80'>
-      <Header className={'flex justify-between items-center bg-black text-white py-2 fixed w-full z-50 max-[529px]:px-2 px-6'} />
+      <Header />
       <Center className='flex flex-col z-10 h-auto max-[1130px]:pt-10 pt-14'>
         <Routes path='/'>
           <Route index element={<Home className=' text-white px-1 bg-black'/>}/>

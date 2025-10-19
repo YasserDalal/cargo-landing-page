@@ -10,6 +10,7 @@ import ServiceIconBlue from "../assets/regular-icons/BoxIcon.png";
 import PhoneIconWhite from "../assets/regular-icons/PhoneIconWhite.png";
 import PhoneIconBlue from "../assets/regular-icons/PhoneIcon.png";
 import useDefaultRoute from '../hooks/useDefaultRoute';
+import useScrollDown from '../hooks/useScrollDown';
 
 const handleActive = ({ isActive }) => {
   return isActive
@@ -174,9 +175,10 @@ function ReachOuts({ className }) {
   );
 }
 
-export default function Header({ className }) {
+export default function Header() {
+  const isScrollDown = useScrollDown(0.1);
   return (
-    <div className={className}>
+    <div className={`flex justify-between items-center bg-black ${isScrollDown ? '-translate-y-20' : ''} transition-all duration-200 text-white py-2 fixed w-full z-50 max-[529px]:px-2 px-6`}>
       <NavMenu className='min-[400px]:hidden' />
       <MainLogo />
       <Navigations className='flex max-[529px]:gap-0 gap-3 max-[400px]:hidden' />
