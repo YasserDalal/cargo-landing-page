@@ -11,6 +11,7 @@ import PhoneIconWhite from "../assets/regular-icons/PhoneIconWhite.png";
 import PhoneIconBlue from "../assets/regular-icons/PhoneIcon.png";
 import useDefaultRoute from '../hooks/useDefaultRoute';
 import useScrollDown from '../hooks/useScrollDown';
+import { useCallback } from "react";
 
 const handleActive = ({ isActive }) => {
   return isActive
@@ -160,17 +161,51 @@ function Navigations({ className }) {
   );
 }
 
+function ContactUs() {
+  const openGmail = useCallback(() => {
+    const subject = "Inquiry";
+    const body = "Hello! I want to ask about...";
+
+    const mailtoLink = `mailto:${import.meta.env.VITE_EMAIL}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailtoLink;
+  }, []);
+  return (
+    <button className='py-2 px-4 cursor-pointer bg-transparent hover:bg-[#1a1a1a] transition-all duration-100 border border-[#323747] rounded-md flex items-center gap-x-2 text-nowrap' onClick={openGmail}>
+      <FontAwesomeIcon icon={faEnvelope} size='md' />
+      <span className='max-[800px]:hidden'>Contact Us</span>
+    </button>
+  );
+}
+
+function CallUs() {
+  const navigateToWhatsapp = useCallback(() => {
+    const message = "Hello! I want to inquire";
+
+    const appLink = `whatsapp://send?phone=${
+      import.meta.env.VITE_WHATSAPP_NUMBER
+    }&text=${encodeURIComponent(message)}`;
+
+    window.location.href = appLink;
+  }, []);
+  return (
+    <button
+      className='py-2 pr-4 pl-3 cursor-pointer bg-[#065ae9] hover:bg-[#317dff] transition-all duration-100 rounded-md flex items-center gap-x-2 text-nowrap '
+      onClick={navigateToWhatsapp}
+    >
+      <FontAwesomeIcon icon={faPhone} size='md' />
+      <span className='max-[529px]:hidden'>Call Us</span>
+    </button>
+  );
+}
+
 function ReachOuts({ className }) {
   return (
     <div className={className}>
-      <button className='py-2 px-4 cursor-pointer bg-transparent hover:bg-[#1a1a1a] transition-all duration-100 border border-[#323747] rounded-md flex items-center gap-x-2 text-nowrap'>
-        <FontAwesomeIcon icon={faEnvelope} size='md' />
-        <span className='max-[800px]:hidden'>Contact Us</span>
-      </button>
-      <button className='py-2 pr-4 pl-3 cursor-pointer bg-[#065ae9] hover:bg-[#317dff] transition-all duration-100 rounded-md flex items-center gap-x-2 text-nowrap '>
-        <FontAwesomeIcon icon={faPhone} size='md' />
-        <span className='max-[529px]:hidden'>Call Us</span>
-      </button>
+      <ContactUs />
+      <CallUs />
     </div>
   );
 }
