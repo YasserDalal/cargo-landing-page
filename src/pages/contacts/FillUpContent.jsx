@@ -148,6 +148,11 @@ function ClearanceType({ clearanceRef }) {
       <legend className='fieldset-legend text-[14px]'>Clearance Type</legend>
       <Select
         ref={clearanceRef}
+        onChange={select => {
+          if (clearanceRef) {
+            clearanceRef.current.value = select.value
+          };
+        }}
         placeholder='Select Clearance Type'
         styles={{
           control: (base) => ({
