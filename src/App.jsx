@@ -10,12 +10,12 @@ export default function App() {
   return (
     <div className='min-w-80'>
       <Header />
-      <Center className='flex flex-col z-10 h-auto max-[1130px]:pt-10 pt-14'>
+      <Center className='flex flex-col z-10 h-auto max-[1130px]:pt-10'>
         <Routes path='/'>
-          <Route index element={<Home className=' text-white px-1 bg-black'/>}/>
-          <Route path='home' element={<Home className=' text-white px-1 bg-black' />} />
-          <Route path='services' element={<Services className=' flex justify-center text-white px-1 bg-black' />} />
-          <Route path='contacts' element={<Contacts className=' flex justify-center text-white px-1 bg-black' />} />
+          <Route index element={<Home className=' text-white px-1 bg-black pt-14'/>}/>
+          <Route path='home' element={<Home className=' text-white px-1 bg-black pt-14' />} />
+          <Route path='services' element={<Services className=' flex justify-center text-white px-1 bg-black pt-14' />} />
+          <Route path='contacts' element={<Contacts className=' flex justify-center text-white px-1 bg-black pt-14' />} />
 
           {/* Display an empty page (not found from routes) */}
           <Route path='/*' element={<div className=' text-white px-1 bg-neutral-900 h-screen flex justify-center items-center'>Empty</div>} />
