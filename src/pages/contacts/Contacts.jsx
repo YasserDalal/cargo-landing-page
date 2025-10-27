@@ -33,7 +33,7 @@ export default function Contacts({ className }) {
           Get a Quote & Contact Us
         </Header>
         <Contents className='flex gap-12 max-[920px]:flex-col max-[920px]:items-center max-[1050px]:gap-6 w-full justify-center'>
-          <FillUpContent className='flex flex-col gap-8 p-10 max-w-[642px] bg-[#1E2128] min-[920px]:min-w-[440.2px] rounded-[10px] max-[1050px]:p-7 max-[950px]:p-6 max-[920px]:p-10 max-[600px]:p-9 max-[585px]:p-8 max-[510px]:p-7 max-[430px]:px-6 max-[400px]:px-[1rem] h-auto max-h-[790px]' />
+          <FillUpContent className='flex flex-col gap-8 p-10 max-w-[642px] bg-[#1E2128] min-[920px]:min-w-[440.2px] rounded-[10px] max-[1050px]:p-7 max-[950px]:p-6 max-[920px]:p-10 max-[600px]:p-9 max-[585px]:p-8 max-[510px]:p-7 max-[430px]:px-6 max-[400px]:px-[1rem] h-auto max-h-fit' />
           <DetailContents>
             <Details className='max-w-[642px] min-[920px]:min-w-[309px] h-full max-[1350px]:h-auto bg-[#1E2128] rounded-[10px] min-[1050px]:p-10 max-[1050px]:p-7 max-[950px]:p-6 max-[920px]:p-10 max-[600px]:p-9 max-[580px]:p-8 max-[560px]:p-7 max-[540px]:p-6 max-[520px]:p-5 ' />
             <Location className='max-w-[642px] min-[920px]:min-w-[309px] h-full max-[1350px]:h-auto bg-[#1E2128] rounded-[10px] p-10 max-[1050px]:p-7 max-[950px]:p-6 max-[920px]:p-10 flex flex-col gap-8 max-[600px]:p-9 max-[580px]:p-8 max-[560px]:p-7 max-[540px]:p-6 max-[520px]:p-5' />

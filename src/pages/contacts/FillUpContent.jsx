@@ -1,11 +1,9 @@
-import useUserDetails from "../../hooks/useUserDetails";
-import React, {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useMemo, useState } from "react";
 import Select from "react-select";
+import { useUserDetails } from "../../context/ContextHooks";
+import trackName from "./helpers/trackName";
+import trackEmail from "./helpers/trackEmail";
+import trackPhone from "./helpers/trackPhone";
 
 function Intro({ className }) {
   return (
@@ -25,7 +23,13 @@ function FillUpForm({ className, children }) {
   return <form className={className}>{children}</form>;
 }
 
-function NameInput({ nameRef }) {
+function NameInput() {
+  const {
+    nameRef,
+    nameErrorShown,
+    setMessage,
+    message,
+    setNameErrorShown } = useUserDetails();
   return (
     <fieldset className='fieldset'>
       <legend className='fieldset-legend text-[14px]'>Full Name</legend>
@@ -34,27 +38,36 @@ function NameInput({ nameRef }) {
         type='text'
         name='full name'
         title='full name'
-        className='input w-full border-0 bg-gray-700'
+        className={`input ${
+          nameErrorShown ? "input-error" : "input-success"
+        } w-full border-0 bg-gray-700`}
         placeholder='Type here'
+        onChange={(e) =>
+          trackName(e, nameRef, message, setNameErrorShown, setMessage)
+        }
       />
+      <div className='block text-[#ff637d] pt-1'>
+        {message.nameMessage.result}
+      </div>
     </fieldset>
   );
 }
 
-function EmailInput({ emailRef }) {
-  const [validity, setValidity] = useState("");
-  const [email, setEmail] = useState("");
-  useEffect(() => {
-    if (email.endsWith(".com") || email.endsWith(".net")) {
-      setValidity("input-success");
-    } else {
-      setValidity("input-error");
-    }
-  }, [email]);
+function EmailInput() {
+  const {
+    emailRef,
+    emailErrorShown,
+    setEmailErrorShown,
+    message,
+    setMessage } = useUserDetails();
   return (
     <fieldset className='fieldset'>
       <legend className='fieldset-legend text-[14px]'>Email Address</legend>
-      <label className={`input ${validity} w-full bg-gray-700 `}>
+      <label
+        className={`input ${
+          emailErrorShown ? "input-error" : "input-success"
+        } w-full bg-gray-700 `}
+      >
         <svg
           className='h-[1.1em] opacity-50'
           xmlns='http://www.w3.org/2000/svg'
@@ -78,26 +91,31 @@ function EmailInput({ emailRef }) {
           name='email'
           ref={emailRef}
           title='email'
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>
+            trackEmail(e, emailRef, message, setEmailErrorShown, setMessage)
+          }
           required
         />
       </label>
-      <div
-        className={`${
-          validity === "input-success" || email === "" ? "hidden" : "block text-[#ff637d]"
-        }`}
-      >
-        Enter valid email address
+      <div className='block text-[#ff637d] pt-1'>
+        {message.emailMessage.result}
       </div>
     </fieldset>
   );
 }
 
-function Phone({ phoneRef }) {
+function Phone() {
+  const { phoneRef, message, setMessage, setPhoneErrorShown, phoneErrorShown } =
+    useUserDetails();
+  const [phone, setPhone] = useState("");
   return (
     <fieldset className='fieldset'>
       <legend className='fieldset-legend text-[14px]'>Phone Number</legend>
-      <label className='input validator w-full bg-gray-700'>
+      <label
+        className={`input w-full bg-gray-700 ${
+          phoneErrorShown ? "input-error" : "input-success"
+        }`}
+      >
         <svg
           className='h-[1.1em] opacity-50'
           xmlns='http://www.w3.org/2000/svg'
@@ -128,14 +146,22 @@ function Phone({ phoneRef }) {
           minLength='8'
           maxLength='8'
           title='Must be 8 digits'
+          onChange={(e) =>
+            trackPhone(e, phoneRef, message, setPhone, setPhoneErrorShown, setMessage)
+          }
         />
       </label>
-      <p className='validator-hint hidden'>Must be 8 digits</p>
+      <div className='text-[#ff637d] pt-1'>
+        {phone.length < 8 && phone.length > 0
+          ? "Must be 8 digits"
+          : message.phoneMessage.result}
+      </div>
     </fieldset>
   );
 }
 
-function ClearanceType({ clearanceRef }) {
+function ClearanceType() {
+  const { clearanceRef } = useUserDetails();
   const clearanceTypes = useMemo(() => {
     return [
       { value: "Land Cargo Clearance", label: "Land Cargo Clearance" },
@@ -148,10 +174,10 @@ function ClearanceType({ clearanceRef }) {
       <legend className='fieldset-legend text-[14px]'>Clearance Type</legend>
       <Select
         ref={clearanceRef}
-        onChange={select => {
+        onChange={(select) => {
           if (clearanceRef) {
-            clearanceRef.current.value = select.value
-          };
+            clearanceRef.current.value = select.value;
+          }
         }}
         placeholder='Select Clearance Type'
         styles={{
@@ -190,7 +216,8 @@ function ClearanceType({ clearanceRef }) {
   );
 }
 
-function Message({ className, messageRef }) {
+function Message({ className }) {
+  const { messageRef } = useUserDetails();
   return (
     <fieldset className={className}>
       <legend className='fieldset-legend text-[14px]'>
@@ -211,49 +238,32 @@ function Message({ className, messageRef }) {
   );
 }
 
-function SubmitButton({ className, handleSubmit }) {
+function SubmitButton() {
+  const { handleSubmit, showModal } = useUserDetails();
   return (
-    <div className={className} typeof='submit' onClick={handleSubmit}>
+    <button
+      className={`btn bg-[#027eab] text-lg h-12 border-0 flex justify-center items-center rounded-[6px] mt-5 ${
+        !showModal ? "cursor-pointer hover:bg-[#025675]" : "cursor-default"
+      }`}
+      type='button'
+      onClick={handleSubmit}
+    >
       <span>Submit a Request</span>
-    </div>
+    </button>
   );
 }
 
 export default function FillUpContent({ className }) {
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const phoneRef = useRef(null);
-  const messageRef = useRef(null);
-  const clearanceRef = useRef(null);
-
-  const [userDetails, setUserDetails] = useUserDetails();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUserDetails({
-      name: nameRef.current.value,
-      email: emailRef.current.value,
-      phone: phoneRef.current.value,
-      message: messageRef.current.value,
-      clearance: clearanceRef.current.value,
-    });
-  };
-
-  useEffect(() => console.log(userDetails), [userDetails]);
-
   return (
     <div className={className}>
       <Intro className='flex flex-col gap-2' />
       <FillUpForm className='flex flex-col gap-2'>
-        <NameInput nameRef={nameRef} />
-        <EmailInput emailRef={emailRef} />
-        <Phone phoneRef={phoneRef} />
-        <ClearanceType clearanceRef={clearanceRef} />
-        <Message messageRef={messageRef} className='fieldset mt-2' />
-        <SubmitButton
-          className='btn bg-[#027eab] hover:bg-[#025675] text-lg h-12 border-0 flex justify-center items-center rounded-[6px] mt-5 cursor-pointer'
-          handleSubmit={handleSubmit}
-        />
+        <NameInput />
+        <EmailInput />
+        <Phone />
+        <ClearanceType />
+        <Message className='fieldset mt-2' />
+        <SubmitButton />
       </FillUpForm>
     </div>
   );
