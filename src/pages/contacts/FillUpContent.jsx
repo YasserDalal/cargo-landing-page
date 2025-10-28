@@ -87,6 +87,7 @@ function EmailInput() {
         <input
           className='pl-2'
           type='email'
+          autoComplete='on'
           placeholder='mail@site.com'
           name='email'
           ref={emailRef}
@@ -138,7 +139,7 @@ function Phone() {
           ref={phoneRef}
           type='tel'
           name='phone'
-          autoComplete='phone'
+          autoComplete='on'
           className='tabular-nums pl-2'
           required
           placeholder='+973'
@@ -174,6 +175,8 @@ function ClearanceType() {
       <legend className='fieldset-legend text-[14px]'>Clearance Type</legend>
       <Select
         ref={clearanceRef}
+        title='Select Clearance Type'
+        aria-label="Select Clearance Type"
         onChange={(select) => {
           if (clearanceRef) {
             clearanceRef.current.value = select.value;
