@@ -21,37 +21,30 @@ export default function Details({ className }) {
             <img src={LocationPinGreen} alt='location pin icon' />
           </div>
           <div>
-            <h4 className='font-semibold'>CargoClear Connect Headquarters</h4>
-            <h4>123 Global Logistics Way,</h4>
-            <h4>Port City, PC 90210, Country</h4>
+            <h4 className='font-semibold'> Five Star Document Clearance</h4>
+            <h4>Building 401, Road 60, Block 456,</h4>
+            <h4>Karranah, Bahrain</h4>
           </div>
         </div>
         <div className='flex gap-4 items-center'>
           <div className='w-5'>
             <img src={PhoneIconGreen} alt='location pin icon' />
           </div>
-          <div>
-            <h4>+973 330 31351</h4>
-          </div>
+          <h4>+973 3989 4173</h4>
         </div>
         <div className='flex gap-4 items-center'>
           <div className='text-[20px]'>
             <FontAwesomeIcon icon={faEnvelope} size='md' color='#00BD7B' />
           </div>
-          <div>
-            <h4>info@cargoclearconnect.com</h4>
-          </div>
+          <h4>fivestarbh11@gmail.com</h4>
         </div>
-        <div className='flex gap-4'>
+        <div className='flex gap-4 items-center'>
           <div className='text-[20px]'>
             <FontAwesomeIcon icon={faClock} size='md' color='#00BD7B' />
           </div>
-          <div>
-            <h4>Mon-Fri: 9:00 AM - 5:00 PM</h4>
-            <h4>(Local Time)</h4>
-          </div>
+          <h4>Mon–Sun: Open 24 Hours</h4>
         </div>
       </div>
     </div>
-  );
+  )
 }

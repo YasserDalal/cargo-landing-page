@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import FiveStarLogo from "../assets/FiveStarLogo.png";
-import FiveStarLogoSingle from "../assets/FiveStarLogoSingle.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
@@ -52,7 +51,7 @@ function NavButtons({ icon, alt, imgSrcWhite, imgSrcBlue, to, title }) {
     <NavLink to={to} className={handleActive} onClick={handleFocus}>
       {({ isActive }) => (
         <div
-          className={`flex items-center space-x-2 ${
+          className={`flex items-center space-x-2 text-[16px] ${
             isActive ? "text-blue-400" : "text-[#F4F4F4]"
           }`}
         >
@@ -60,7 +59,7 @@ function NavButtons({ icon, alt, imgSrcWhite, imgSrcBlue, to, title }) {
             <img
               src={isActive ? imgSrcBlue : imgSrcWhite}
               alt={alt}
-              className='ml-[3px] w-[14px]'
+              className='ml-[3px] mr-[11px] w-[18px]'
             />
           ) : (
             <FontAwesomeIcon
@@ -70,7 +69,7 @@ function NavButtons({ icon, alt, imgSrcWhite, imgSrcBlue, to, title }) {
             />
           )}
           <span
-            className={defaultRoute && title === "Home" ? "text-[#80ACFA]" : undefined}
+            className={`text-lg ${defaultRoute && title === "Home" ? "text-[#80ACFA]" : undefined}`}
           >
             {title}
           </span>
@@ -109,7 +108,7 @@ function NavMenu({ className }) {
           </div>
           <ul
             tabIndex={0}
-            className='menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow border-2 border-[#323747]'
+            className='menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-72 p-2 text-xl shadow border-2 border-[#323747]'
           >
             {navLinks.map((link, index) => (
               <li key={index}>
@@ -133,10 +132,7 @@ function NavMenu({ className }) {
 function MainLogo() {
   return (
     <>
-      <div className='min-w-10 max-w-11 w-full min-[680px]:hidden'>
-        <img src={FiveStarLogoSingle} alt='five star logo' typeof='image' />
-      </div>
-      <div className='max-w-44 max-[680px]:hidden'>
+      <div className='max-w-36 pl-5 max-[680px]:hidden'>
         <img src={FiveStarLogo} alt='five star logo' typeof='image' />
       </div>
     </>
@@ -214,9 +210,9 @@ export default function Header() {
   const isScrollDown = useScrollDown(0.1);
   return (
     <div className={`flex justify-between items-center bg-black ${isScrollDown ? '-translate-y-20' : ''} transition-all duration-200 text-white py-2 fixed w-full z-50 max-[529px]:px-2 px-6`}>
-      <NavMenu className='min-[400px]:hidden' />
+      <NavMenu className='min-[680px]:hidden' />
       <MainLogo />
-      <Navigations className='flex max-[529px]:gap-0 gap-3 max-[400px]:hidden' />
+      <Navigations className='flex max-[529px]:gap-0 gap-3 max-[680px]:hidden' />
       <ReachOuts className='flex gap-2' />
     </div>
   );
