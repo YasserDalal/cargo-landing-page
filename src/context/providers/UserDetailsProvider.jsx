@@ -51,13 +51,10 @@ export default function UserDetailsProvider({ children }) {
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
 
-    // if the message is sent, do nothing
-    if (isSending && isSent) {
-      console.log("doesn't do anything");
+    // if sending, do nothing
+    if (isSending) {
       return;
     }
-
-    setIsSending(true);
 
     // if all fields are empty, show the error message
     if(CheckIsAllFieldsEmpty(
@@ -119,6 +116,8 @@ export default function UserDetailsProvider({ children }) {
       return;
     }
 
+    setIsSending(true);
+
     const templateParams = {
       name: nameRef.current.value,
       email: emailRef.current.value,
@@ -171,7 +170,7 @@ export default function UserDetailsProvider({ children }) {
       .catch((err) => console.log("Failed to send message: " + err))
       .finally(() => setIsSending(false));
     },
-    [isSent]
+    [isSending]
   );
 
   const handleRemoveModal = useCallback(() => {
@@ -181,13 +180,13 @@ export default function UserDetailsProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (isSending) return;
+    if (!isSent) return;
 
     const timeout = setTimeout(() => {
       setShowModal(false);
     }, 3000);
     return () => clearTimeout(timeout);
-  }, [isSending]);
+  }, [isSent]);
 
   const value = {
     nameRef,

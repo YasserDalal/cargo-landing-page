@@ -242,16 +242,19 @@ function Message({ className }) {
 }
 
 function SubmitButton() {
-  const { handleSubmit, showModal } = useUserDetails();
+  const { handleSubmit, isSending } = useUserDetails();
   return (
     <button
       className={`btn bg-[#027eab] text-lg h-12 border-0 flex justify-center items-center rounded-[6px] mt-5 ${
-        !showModal ? "cursor-pointer hover:bg-[#025675]" : "cursor-default"
+        !isSending ? "cursor-pointer hover:bg-[#025675]" : "cursor-default"
       }`}
       type='button'
       onClick={handleSubmit}
     >
-      <span>Submit a Request</span>
+      {isSending
+        ? <span className="loading loading-spinner loading-xl"></span>
+        : <span>Submit a Request</span>
+      }
     </button>
   );
 }
