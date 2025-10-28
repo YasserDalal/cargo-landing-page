@@ -1,16 +1,11 @@
-import { useUserDetails } from "../context/ContextHooks";
+import { useUserDetails } from '../context/ContextHooks'
 
 export default function FailedModal({ className }) {
-  const { nameRef, emailRef, phoneRef } = useUserDetails();
+  const { nameRef, emailRef, phoneRef, message } = useUserDetails()
   return (
     <div className={className}>
       <div role='alert' className='alert alert-error gap-2'>
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          className='h-6 w-6 shrink-0 stroke-current'
-          fill='none'
-          viewBox='0 0 24 24'
-        >
+        <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6 shrink-0 stroke-current' fill='none' viewBox='0 0 24 24'>
           <path
             strokeLinecap='round'
             strokeLinejoin='round'
@@ -19,15 +14,30 @@ export default function FailedModal({ className }) {
           />
         </svg>
         <span>
-          {
-            (!nameRef.current.value ||
-            !emailRef.current.value ||
-            !phoneRef.current.value)
-              ? "Please fill out the name, email and phone number"
-              : "Submit failed: Please use a different name, email and phone number"
+          {/* check if field is empty */}
+          {!nameRef.current.value && !emailRef.current.value && !phoneRef.current.value
+            ? 'Please fill out the name, email and phone number'
+            // check if two field is empty
+            : nameRef.current.value && (!emailRef.current.value && !phoneRef.current.value)
+            ? 'Please fill out the email and phone number'
+            : emailRef.current.value && (!nameRef.current.value && !phoneRef.current.value)
+            ? 'Please fill out the name and phone number'
+            : phoneRef.current.value && (!nameRef.current.value && !emailRef.current.value)
+            ? 'Please fill out the name and email'
+            // check if one field is empty
+            : !nameRef.current.value && (emailRef.current.value && phoneRef.current.value)
+            ? 'Please fill out the name'
+            : !emailRef.current.value && (nameRef.current.value && phoneRef.current.value)
+            ? 'Please fill out the email'
+            : !phoneRef.current.value && (nameRef.current.value && emailRef.current.value)
+              && 'Please fill out the phone number'     
+          }
+          {/* check if field is already sent before */}
+          {(message.nameMessage.invalid || message.emailMessage.invalid || message.phoneMessage.invalid)
+            && 'Submit failed: This user has already sent before'
           }
         </span>
       </div>
     </div>
-  );
+  )
 }
