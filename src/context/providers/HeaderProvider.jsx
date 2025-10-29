@@ -65,6 +65,13 @@ export function HeaderProvider({ children }) {
     ]
   }, [])
 
+  const handleLogoClick = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }, [])
+
   const value = {
     defaultRoute,
     isScrollDown,
@@ -72,7 +79,8 @@ export function HeaderProvider({ children }) {
     navigateToWhatsapp,
     handleFocus,
     handleActive,
-    navLinks
+    navLinks,
+    handleLogoClick
   }
   return <HeaderContext.Provider value={value}>{children}</HeaderContext.Provider>
 }

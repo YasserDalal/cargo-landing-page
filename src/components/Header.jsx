@@ -92,10 +92,11 @@ function NavMenu({ className }) {
 }
 
 function MainLogo({ className }) {
+  const { handleLogoClick } = useHeaderProvider();
   return (
     <>
       <div className={className}>
-        <img src={FiveStarLogo} alt='five star logo' typeof='image' />
+        <img src={FiveStarLogo} alt='five star logo' typeof='image' onClick={handleLogoClick} className='cursor-pointer'/>
       </div>
     </>
   );
