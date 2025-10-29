@@ -8,6 +8,7 @@ import Contacts from './pages/contacts/Contacts'
 import SuccessModal from "./components/SuccessModal"
 import FailedModal from "./components/FailedModal";
 import { useUserDetails } from "./context/ContextHooks";
+import { HeaderProvider } from "./context/providers/HeaderProvider";
 
 function Wrapper({ children }) {
   const { handleRemoveModal, isSent, showModal } = useUserDetails();
@@ -37,7 +38,9 @@ export default function App() {
   return (
     <div className='min-w-80'>
     <Wrapper>
-      <Header />
+      <HeaderProvider>
+        <Header />
+      </HeaderProvider>
       <Center className='flex flex-col z-10 h-auto max-[1130px]:pt-10'>
         <Routes path='/'>
           <Route index element={<Home className=' text-white px-1 bg-black pt-14'/>}/>
