@@ -70,7 +70,7 @@ function NavMenu({ className }) {
           <ul
             tabIndex={0}
             className={`menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-72 p-2 text-xl shadow border-2 border-[#323747]`}
-            onBlur={`${isScrollDown && handleFocus()}`}
+            onBlur={isScrollDown ? handleFocus() : undefined}
           >
             {navLinks.map((link, index) => (
               <li key={index}>
