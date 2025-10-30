@@ -7,6 +7,7 @@ import CheckIsOneFieldEmpty from "../helpers/CheckIsOneFieldEmpty";
 import ValidateEmail from "../helpers/ValidateEmail";
 import ValidatePhone from "../helpers/ValidatePhone";
 import CheckIsUserSentBefore from "../helpers/CheckIsUserSentBefore";
+import { useDarkModal } from '../ContextHooks';
 
 export const UserDetailsContext = createContext();
 
@@ -16,7 +17,7 @@ export default function UserDetailsProvider({ children }) {
   const phoneRef = useRef(null);
   const messageRef = useRef(null);
   const clearanceRef = useRef(null);
-  const [showModal, setShowModal] = useState(false);
+  const { handleDidClickSubmit, handleCloseModal } = useDarkModal();
   const [isSent, setIsSent] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
@@ -50,6 +51,7 @@ export default function UserDetailsProvider({ children }) {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
+    handleDidClickSubmit();
 
     // if sending, do nothing
     if (isSending) {
@@ -62,7 +64,6 @@ export default function UserDetailsProvider({ children }) {
       emailRef,
       phoneRef,
       setMessage,
-      setShowModal,
       setIsFailed,
       setNameErrorShown,
       setEmailErrorShown,
@@ -83,19 +84,18 @@ export default function UserDetailsProvider({ children }) {
       setEmailErrorShown,
       setPhoneErrorShown,
       setMessage,
-      setShowModal,
       setIsFailed
     )) {
       return;
     }
 
     // if the email doesn't end with .com, show the error message
-    if(ValidateEmail(emailRef, setShowModal, setIsFailed)) {
+    if(ValidateEmail(emailRef, setIsFailed)) {
       return;
     }
 
     // if the phone number is not 8 digits, show the error message
-    if(ValidatePhone(phoneRef, setShowModal, setIsFailed)) {
+    if(ValidatePhone(phoneRef, setIsFailed)) {
       return;
     };
 
@@ -106,7 +106,6 @@ export default function UserDetailsProvider({ children }) {
       emailRef,
       phoneRef,
       setMessage,
-      setShowModal,
       setIsFailed,
       setIsSent,
       setNameErrorShown,
@@ -161,7 +160,6 @@ export default function UserDetailsProvider({ children }) {
           },
         });
         setIsSent(true);
-        setShowModal(true);
         setIsFailed(false);
         setEmailErrorShown(false);
         setPhoneErrorShown(false);
@@ -175,15 +173,15 @@ export default function UserDetailsProvider({ children }) {
 
   const handleRemoveModal = useCallback(() => {
     setIsSent(false);
-    setShowModal(false);
     setIsSending(false);
+    handleCloseModal();
   }, []);
 
   useEffect(() => {
     if (!isSent) return;
 
     const timeout = setTimeout(() => {
-      setShowModal(false);
+      handleCloseModal();
     }, 3000);
     return () => clearTimeout(timeout);
   }, [isSent]);
@@ -202,7 +200,6 @@ export default function UserDetailsProvider({ children }) {
     isFailed,
     message,
     setMessage,
-    showModal,
     setPhoneErrorShown,
     phoneErrorShown,
     emailErrorShown,

@@ -1,6 +1,5 @@
-export default function ValidateEmail(emailRef, setShowModal, setIsFailed) {
+export default function ValidateEmail(emailRef, setIsFailed) {
   if (!emailRef.current.value.endsWith(".com")) {
-    setShowModal(true);
     setIsFailed(true);
     return true;
   }

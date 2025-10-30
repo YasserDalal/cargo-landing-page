@@ -1,6 +1,5 @@
-export default function ValidatePhone(phoneRef, setShowModal, setIsFailed) {
+export default function ValidatePhone(phoneRef, setIsFailed) {
   if (phoneRef.current.value.length !== 8) {
-    setShowModal(true);
     setIsFailed(true);
     return true;
   }

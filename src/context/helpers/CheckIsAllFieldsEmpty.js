@@ -3,7 +3,6 @@ export default function CheckIsAllFieldsEmpty(
   emailRef,
   phoneRef,
   setMessage,
-  setShowModal,
   setIsFailed,
   setNameErrorShown,
   setEmailErrorShown,
@@ -31,7 +30,6 @@ export default function CheckIsAllFieldsEmpty(
         invalid: false,
       },
     });
-    setShowModal(true);
     setIsFailed(true);
     setNameErrorShown(true);
     setEmailErrorShown(true);

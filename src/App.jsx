@@ -9,26 +9,56 @@ import SuccessModal from "./components/SuccessModal"
 import FailedModal from "./components/FailedModal";
 import { useUserDetails } from "./context/ContextHooks";
 import { HeaderProvider } from "./context/providers/HeaderProvider";
+import DarkModal from './components/DarkModal'
+import { useDarkModal } from './context/ContextHooks'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import Map from './components/Map'
 
 function Wrapper({ children }) {
-  const { handleRemoveModal, isSent, showModal } = useUserDetails();
+  const {
+    isSent,
+    isFailed,
+    isSending } = useUserDetails();
+  const {
+    showModal,
+    openMaps,
+    didClickSubmit,
+    handleCloseModal } = useDarkModal();
   return (
     <>
-      {(isSent && showModal) ? (
-        <SuccessModal className={`toast toast-end z-[99]`} />
-      ) : 
-        (!isSent && showModal) && <FailedModal className={`toast toast-end z-[99]`} />
-      }
       <div className='relative'>
         {children}
-        <div
-          className={`${
-            showModal
-              ? "opacity-75 z-50 fixed top-0 left-0 right-0 bottom-0 bg-black"
-              : "brightness-100 hidden"
-          }`}
-          onClick={handleRemoveModal}
-        ></div>
+        {(showModal && !isSending) &&
+          <DarkModal>
+            {/* Form Submission Modals */}
+            {(isSent && didClickSubmit)
+              ? <SuccessModal className={`toast toast-end z-[99]`} />
+              : (isFailed && didClickSubmit) && <FailedModal className={`toast toast-end z-[99]`} />
+            }
+            {/* Maps Modal */}
+            {(openMaps && !didClickSubmit) &&
+              (
+                <div className='relative min-w-[320px] max-w-[1000px] w-full'>
+                  <div className='flex justify-end bg-neutral-800 py-[10px] min-[1000px]:rounded-tl-2xl min-[1000px]:rounded-tr-2xl px-4'>
+                    <button className='px-2 py-[10px] bg-neutral-600 hover:bg-neutral-500 rounded-full cursor-pointer'
+                      onClick={handleCloseModal}>
+                      <FontAwesomeIcon icon={faXmark} size='xl' style={{ color: 'white' }} />
+                    </button>
+                  </div>
+                  <Map
+                    latitude={26.2292}
+                    longitude={50.5094}
+                    popupText="Five Star Document Clearance"
+                    style={{
+                      height: '500px',
+                      width: '100%',
+                    }} />
+                </div>
+              )
+            }
+          </DarkModal>
+        }
       </div>
     </>
   );

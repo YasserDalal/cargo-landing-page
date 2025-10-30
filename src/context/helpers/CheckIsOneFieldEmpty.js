@@ -9,7 +9,6 @@ export default function CheckIsOneFieldEmpty(
   setEmailErrorShown,
   setPhoneErrorShown,
   setMessage,
-  setShowModal,
   setIsFailed
 ) {
   if (
@@ -50,7 +49,6 @@ export default function CheckIsOneFieldEmpty(
       }));
       setNameErrorShown(true);
     }
-    setShowModal(true);
     setIsFailed(true);
     console.log("One field is empty");
     return true;

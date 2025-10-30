@@ -1,7 +1,11 @@
 import React from "react";
-import SampleMap from "../../assets/regular-icons/SampleMap.png";
+import Map from "../../components/Map";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExpand } from '@fortawesome/free-solid-svg-icons';
+import { useDarkModal } from '../../context/ContextHooks';
 
 export default function Location({ className }) {
+  const { handleOpenMaps } = useDarkModal();
   return (
     <div className={className}>
       <div className='flex flex-col gap-2'>
@@ -12,8 +16,16 @@ export default function Location({ className }) {
           Find us on the map for easy navigation.
         </h3>
       </div>
-      <div>
-        <img src={SampleMap} alt='Map image' />
+      <div className='relative'>
+        <Map
+          latitude={26.2292}
+          longitude={50.5094}
+          popupText="Five Star Document Clearance"
+          style={{ height: '300px', width: '100%', filter: 'brightness(0.9)' }}
+        />
+        <button className='absolute bottom-0 right-0 text-black bg-[#ffffff95] hover:bg-[#ffffff] cursor-pointer w-12 h-12 flex justify-center items-center' onClick={handleOpenMaps}>
+          <FontAwesomeIcon icon={faExpand} size='2xl' />
+        </button>
       </div>
     </div>
   );

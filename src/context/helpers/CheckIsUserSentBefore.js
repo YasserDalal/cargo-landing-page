@@ -6,7 +6,6 @@ export default function CheckIsUserSentBefore(
   emailRef,
   phoneRef,
   setMessage,
-  setShowModal,
   setIsFailed,
   setIsSent,
   setNameErrorShown,
@@ -73,7 +72,6 @@ export default function CheckIsUserSentBefore(
           },
         }));
       }
-      setShowModal(true);
       setIsFailed(true);
       setIsSent(false);
       return true;
