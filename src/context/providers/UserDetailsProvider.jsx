@@ -1,7 +1,6 @@
 import { createContext, useCallback, useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import dayjs from "dayjs";
-import isSimilarStrings from "../../helpers/isSimilarStrings";
 import CheckIsAllFieldsEmpty from "../helpers/CheckIsAllFieldsEmpty";
 import CheckIsOneFieldEmpty from "../helpers/CheckIsOneFieldEmpty";
 import ValidateEmail from "../helpers/ValidateEmail";
@@ -142,6 +141,13 @@ export default function UserDetailsProvider({ children }) {
             phone: phoneRef.current.value,
           },
         ]);
+
+        if (nameRef.current) nameRef.current.value = "";
+        if (emailRef.current) emailRef.current.value = "";
+        if (phoneRef.current) phoneRef.current.value = "";
+        if (messageRef.current) messageRef.current.value = "";
+        if (clearanceRef.current) clearanceRef.current.value = "";
+
         setMessage({
           nameMessage: {
             result: "",
@@ -181,7 +187,7 @@ export default function UserDetailsProvider({ children }) {
     if (!isSent) return;
 
     const timeout = setTimeout(() => {
-      handleCloseModal();
+      handleRemoveModal();
     }, 3000);
     return () => clearTimeout(timeout);
   }, [isSent]);
