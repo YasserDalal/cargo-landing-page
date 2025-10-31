@@ -8,7 +8,7 @@ import trackPhone from "./helpers/trackPhone";
 function Intro({ className }) {
   return (
     <div className={className}>
-      <h3 className='text-[#F3F4F6FF] min-[920px]:text-[clamp(22px,2.43vw,30px)] max-[920px]:text-[clamp(16.5px,5.15vw,30px)] font-montserrat font-semibold leading-9'>
+      <h3 className='text-[#F3F4F6FF] min-[920px]:text-[clamp(22px,2.43vw,30px)] max-[920px]:text-[clamp(17.1px,5.15vw,30px)] font-montserrat font-semibold leading-9'>
         Request a Quote / Contact Us
       </h3>
       <h4 className='text-[#BDC1CA] text-[clamp(14px,3vw,16px)] leading-6 '>

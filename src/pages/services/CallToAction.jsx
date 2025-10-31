@@ -24,7 +24,7 @@ function Button({ className, children }) {
 
 export default function CallToAction() {
   return (
-    <div className='bg-[#80ACFA] text-[#19191F] border border-[#80ACFA] rounded-[16px] w-full'>
+    <div className='bg-[#80ACFA] text-[#19191F] border border-[#80ACFA] min-[903px]:rounded-[16px] w-full'>
       <Container
         className={"flex flex-col items-center justify-center py-20 px-5"}
       >
