@@ -11,52 +11,33 @@ import { useUserDetails } from "./context/ContextHooks";
 import { HeaderProvider } from "./context/providers/HeaderProvider";
 import DarkModal from './components/DarkModal'
 import { useDarkModal } from './context/ContextHooks'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import Map from './components/Map'
+import ExpandedMap from './components/ExpandedMap'
 
 function Wrapper({ children }) {
   const {
     isSent,
     isFailed,
-    isSending } = useUserDetails();
+    isSending,
+    handleRemoveModal } = useUserDetails();
   const {
     showModal,
     openMaps,
-    didClickSubmit,
-    handleCloseModal } = useDarkModal();
+    didClickSubmit } = useDarkModal();
   return (
     <>
       <div className='relative'>
         {children}
         {(showModal && !isSending) &&
-          <DarkModal>
-            {/* Form Submission Modals */}
+          <DarkModal onClick={handleRemoveModal}>
             {(isSent && didClickSubmit)
               ? <SuccessModal className={`toast toast-end z-[99]`} />
               : (isFailed && didClickSubmit) && <FailedModal className={`toast toast-end z-[99]`} />
             }
-            {/* Maps Modal */}
-            {(openMaps && !didClickSubmit) &&
-              (
-                <div className='relative min-w-[320px] max-w-[1000px] w-full'>
-                  <div className='flex justify-end bg-neutral-800 py-[10px] min-[1000px]:rounded-tl-2xl min-[1000px]:rounded-tr-2xl px-4'>
-                    <button className='px-2 py-[10px] bg-neutral-600 hover:bg-neutral-500 rounded-full cursor-pointer'
-                      onClick={handleCloseModal}>
-                      <FontAwesomeIcon icon={faXmark} size='xl' style={{ color: 'white' }} />
-                    </button>
-                  </div>
-                  <Map
-                    latitude={26.2292}
-                    longitude={50.5094}
-                    popupText="Five Star Document Clearance"
-                    style={{
-                      height: '500px',
-                      width: '100%',
-                    }} />
-                </div>
-              )
-            }
+          </DarkModal>
+        }
+        {(showModal && openMaps) &&
+          <DarkModal>
+            <ExpandedMap />
           </DarkModal>
         }
       </div>
