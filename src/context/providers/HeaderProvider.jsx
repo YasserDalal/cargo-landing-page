@@ -6,29 +6,14 @@ import PhoneIconWhite from '../../assets/regular-icons/PhoneIconWhite.png'
 import PhoneIconBlue from '../../assets/regular-icons/PhoneIcon.png'
 import useDefaultRoute from '../../hooks/useDefaultRoute'
 import useScrollDown from '../../hooks/useScrollDown'
+import openGmail from '../../helpers/openGmail'
+import navigateToWhatsapp from '../../helpers/navigateToWhatsapp'
 
 export const HeaderContext = createContext()
 
 export function HeaderProvider({ children }) {
   const defaultRoute = useDefaultRoute()
   const isScrollDown = useScrollDown(0.1)
-
-  const openGmail = useCallback(() => {
-    const subject = 'Inquiry'
-    const body = 'Hello! I want to ask about...'
-
-    const mailtoLink = `mailto:${import.meta.env.VITE_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-
-    window.location.href = mailtoLink
-  }, [])
-
-  const navigateToWhatsapp = useCallback(() => {
-    const message = 'Hello! I want to inquire'
-
-    const appLink = `whatsapp://send?phone=${import.meta.env.VITE_WHATSAPP_NUMBER}&text=${encodeURIComponent(message)}`
-
-    window.location.href = appLink
-  }, [])
 
   const handleFocus = useCallback(() => {
     document.activeElement.blur()
@@ -75,8 +60,6 @@ export function HeaderProvider({ children }) {
   const value = {
     defaultRoute,
     isScrollDown,
-    openGmail,
-    navigateToWhatsapp,
     handleFocus,
     handleActive,
     navLinks,

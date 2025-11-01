@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { useHeaderProvider } from "../context/ContextHooks";
+import openGmail from '../helpers/openGmail'
+import navigateToWhatsapp from '../helpers/navigateToWhatsapp'
 
 function NavButtons({ icon, alt, imgSrcWhite, imgSrcBlue, to, title }) {
   const { handleActive, handleFocus, defaultRoute } = useHeaderProvider()
@@ -120,7 +122,6 @@ function Navigations({ className }) {
 }
 
 function ContactUs() {
-  const { openGmail } = useHeaderProvider();
   return (
     <button className='py-2 px-4 cursor-pointer bg-transparent hover:bg-[#1a1a1a] transition-all duration-100 border border-[#323747] rounded-md flex items-center gap-x-2 text-nowrap' onClick={openGmail}>
       <FontAwesomeIcon icon={faEnvelope} size='md' />
@@ -130,7 +131,6 @@ function ContactUs() {
 }
 
 function CallUs() {
-  const { navigateToWhatsapp } = useHeaderProvider();
   return (
     <button
       className='py-2 pr-4 pl-3 cursor-pointer bg-[#065ae9] hover:bg-[#317dff] transition-all duration-100 rounded-md flex items-center gap-x-2 text-nowrap '
