@@ -52,7 +52,7 @@ export default function App() {
       <HeaderProvider>
         <Header />
       </HeaderProvider>
-      <Center className='flex flex-col z-10 h-auto max-[1130px]:pt-10'>
+      <Center className='flex flex-col z-10 h-auto'>
         <Routes path='/'>
           <Route index element={<Home className=' text-white px-1 bg-black pt-14'/>}/>
           <Route path='home' element={<Home className=' text-white px-1 bg-black pt-14' />} />
@@ -63,7 +63,7 @@ export default function App() {
           <Route path='/*' element={<div className=' text-white px-1 bg-neutral-900 h-screen flex justify-center items-center'>Empty</div>} />
         </Routes>
       </Center>
-      <Footer className='flex justify-center items-center bg-black text-white py-10 h-auto z-50'/>
+      <Footer />
     </Wrapper>
     </div>
   )

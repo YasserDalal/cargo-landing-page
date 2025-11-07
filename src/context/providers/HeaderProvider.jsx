@@ -6,15 +6,14 @@ import PhoneIconWhite from '../../assets/regular-icons/PhoneIconWhite.png'
 import PhoneIconBlue from '../../assets/regular-icons/PhoneIcon.png'
 import useDefaultRoute from '../../hooks/useDefaultRoute'
 import useScrollDown from '../../hooks/useScrollDown'
-import openGmail from '../../helpers/openGmail'
-import navigateToWhatsapp from '../../helpers/navigateToWhatsapp'
+import { useLanguage } from '../ContextHooks'
 
 export const HeaderContext = createContext()
 
 export function HeaderProvider({ children }) {
   const defaultRoute = useDefaultRoute()
   const isScrollDown = useScrollDown(0.1)
-
+  const { language } = useLanguage()
   const handleFocus = useCallback(() => {
     document.activeElement.blur()
   }, [])
@@ -30,25 +29,25 @@ export function HeaderProvider({ children }) {
       {
         icon: faHouse,
         alt: 'Home Icon',
-        title: 'Home',
+        title: language.arabic ? 'الرئيسية' : 'Home',
         to: 'home',
       },
       {
         imgSrcWhite: ServiceIconWhite,
         imgSrcBlue: ServiceIconBlue,
         alt: 'Services Icon',
-        title: 'Services',
+        title: language.arabic ? 'الخدمات' : 'Services',
         to: 'services',
       },
       {
         imgSrcWhite: PhoneIconWhite,
         imgSrcBlue: PhoneIconBlue,
         alt: 'Phone Icon',
-        title: 'Contacts',
+        title: language.arabic ? 'جهات الاتصال' : 'Contacts',
         to: 'contacts',
       },
     ]
-  }, [])
+  }, [language])
 
   const handleLogoClick = useCallback(() => {
     window.scrollTo({

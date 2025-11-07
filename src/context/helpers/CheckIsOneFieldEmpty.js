@@ -9,7 +9,8 @@ export default function CheckIsOneFieldEmpty(
   setEmailErrorShown,
   setPhoneErrorShown,
   setMessage,
-  setIsFailed
+  setIsFailed,
+  language
 ) {
   if (
     !phoneRef.current.value ||
@@ -20,7 +21,7 @@ export default function CheckIsOneFieldEmpty(
       setMessage((prev) => ({
         ...prev,
         phoneMessage: {
-          result: "Phone number is required",
+          result: language.arabic ? "رقم الهاتف مطلوب" : "Phone number is required",
           empty: true,
           invalid: false,
         },
@@ -31,7 +32,7 @@ export default function CheckIsOneFieldEmpty(
       setMessage((prev) => ({
         ...prev,
         emailMessage: {
-          result: "Email is required",
+          result: language.arabic ? "البريد الإلكتروني مطلوب" : "Email is required",
           empty: true,
           invalid: false,
         },
@@ -42,7 +43,7 @@ export default function CheckIsOneFieldEmpty(
       setMessage((prev) => ({
         ...prev,
         nameMessage: {
-          result: "Name is required",
+          result: language.arabic ? "الاسم مطلوب" : "Name is required",
           empty: true,
           invalid: false,
         },
@@ -50,7 +51,6 @@ export default function CheckIsOneFieldEmpty(
       setNameErrorShown(true);
     }
     setIsFailed(true);
-    console.log("One field is empty");
     return true;
   }
   return false;

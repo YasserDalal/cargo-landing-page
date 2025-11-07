@@ -10,68 +10,36 @@ export default function CheckIsUserSentBefore(
   setIsSent,
   setNameErrorShown,
   setEmailErrorShown,
-  setPhoneErrorShown
+  setPhoneErrorShown,
+  language
 ) {
   for (const user of previousUser) {
-    if (
-      isSimilarStrings(user.name, nameRef.current.value) ||
-      isSimilarStrings(user.email, emailRef.current.value) ||
-      isSimilarStrings(user.phone, phoneRef.current.value)
-    ) {
-      if (isSimilarStrings(user.name, nameRef.current.value)) {
-        setMessage((prev) => ({
-          ...prev,
-          nameMessage: {
-            result: "Please use a different name",
-            empty: false,
-            invalid: true,
-          },
-        }));
-        console.log("Name is similar");
-        setNameErrorShown(true);
-      }
+    const nameMatch = isSimilarStrings(user.name, nameRef.current.value);
+    const emailMatch = isSimilarStrings(user.email, emailRef.current.value);
+    const phoneMatch = isSimilarStrings(user.phone, phoneRef.current.value);
+    if (nameMatch || emailMatch || phoneMatch) {
+      setMessage({
+        nameMessage: {
+          result: nameMatch ? (language.arabic ? "يرجى استخدام اسم مختلف" : "Please use a different name") : "",
+          empty: false,
+          invalid: true,
+        },
+        emailMessage: {
+          result: emailMatch ? (language.arabic ? "يرجى استخدام بريد إلكتروني مختلف" : "Please use a different email") : "",
+          empty: false,
+          invalid: true,
+        },
+        phoneMessage: {
+          result: phoneMatch ? (language.arabic ? "يرجى استخدام رقم هاتف مختلف" : "Please use a different phone number") : "",
+          empty: false,
+          invalid: true,
+        }
+      })
+      console.log('did run')
+      setNameErrorShown(nameMatch);
+      setEmailErrorShown(emailMatch);
+      setPhoneErrorShown(phoneMatch);
 
-      if (isSimilarStrings(user.email, emailRef.current.value)) {
-        setMessage((prev) => ({
-          ...prev,
-          emailMessage: {
-            result: "Please use a different email",
-            empty: false,
-            invalid: true,
-          },
-        }));
-        setEmailErrorShown(true);
-      } else {
-        setMessage((prev) => ({
-          ...prev,
-          emailMessage: {
-            result: "",
-            empty: false,
-            invalid: false,
-          },
-        }));
-      }
-
-      if (isSimilarStrings(user.phone, phoneRef.current.value)) {
-        setMessage((prev) => ({
-          ...prev,
-          phoneMessage: {
-            result: "Please use a different phone number",
-            empty: false,
-            invalid: true,
-          },
-        }));
-        setPhoneErrorShown(true);
-      } else {
-        setMessage((prev) => ({
-          ...prev,
-          phoneMessage: {
-            result: "",
-            empty: false,
-            invalid: false,
-          },
-        }));
-      }
       setIsFailed(true);
       setIsSent(false);
       return true;

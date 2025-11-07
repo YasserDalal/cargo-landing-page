@@ -1,0 +1,11 @@
+.leaflet-top.leaflet-left {
+  left: 10px;   
+  right: auto;  
+  top: 10px;    
+}
+
+.leaflet-top.leaflet-right {
+  left: auto;   
+  right: 10px;  
+  top: 10px;    
+}

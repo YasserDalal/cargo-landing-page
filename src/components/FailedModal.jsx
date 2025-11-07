@@ -33,7 +33,11 @@ export default function FailedModal({ className }) {
             ? 'Please fill out the phone number'
             // check if the user has already sent before
             : (message.nameMessage.invalid || message.emailMessage.invalid || message.phoneMessage.invalid)
-            && 'Submit failed: This user has already sent before'            
+            ? 'Submit failed: This user has already sent before'
+            : (!emailRef.current.value.includes("@") ||
+              (!emailRef.current.value.endsWith(".com") ||
+              !emailRef.current.value.endsWith(".net")))
+            && 'Please enter a valid email address'              
           }
         </span>
       </div>

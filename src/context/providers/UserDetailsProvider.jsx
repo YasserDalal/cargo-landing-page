@@ -6,7 +6,8 @@ import CheckIsOneFieldEmpty from "../helpers/CheckIsOneFieldEmpty";
 import ValidateEmail from "../helpers/ValidateEmail";
 import ValidatePhone from "../helpers/ValidatePhone";
 import CheckIsUserSentBefore from "../helpers/CheckIsUserSentBefore";
-import { useDarkModal } from '../ContextHooks';
+import { useDarkModal, useLanguage } from '../ContextHooks';
+import CheckMessageLanguage from '../helpers/CheckMessageLanguage';
 
 export const UserDetailsContext = createContext();
 
@@ -17,6 +18,7 @@ export default function UserDetailsProvider({ children }) {
   const messageRef = useRef(null);
   const clearanceRef = useRef(null);
   const { handleDidClickSubmit, handleCloseModal } = useDarkModal();
+  const { language } = useLanguage();
   const [isSent, setIsSent] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
@@ -66,7 +68,8 @@ export default function UserDetailsProvider({ children }) {
       setIsFailed,
       setNameErrorShown,
       setEmailErrorShown,
-      setPhoneErrorShown
+      setPhoneErrorShown,
+      language
     )) {
       return;
     }
@@ -83,7 +86,8 @@ export default function UserDetailsProvider({ children }) {
       setEmailErrorShown,
       setPhoneErrorShown,
       setMessage,
-      setIsFailed
+      setIsFailed,
+      language
     )) {
       return;
     }
@@ -109,13 +113,15 @@ export default function UserDetailsProvider({ children }) {
       setIsSent,
       setNameErrorShown,
       setEmailErrorShown,
-      setPhoneErrorShown
+      setPhoneErrorShown,
+      language
     )) {
       return;
     }
 
     setIsSending(true);
 
+    /*
     const templateParams = {
       name: nameRef.current.value,
       email: emailRef.current.value,
@@ -172,9 +178,65 @@ export default function UserDetailsProvider({ children }) {
         setNameErrorShown(false);
       })
       .catch((err) => console.log("Failed to send message: " + err))
+      .finally(() => setIsSending(false)); */
+    
+    fetch('https://68f89512deff18f212b69b87.mockapi.io/messages', {
+      header: {
+        "Content-Type": "application/json",
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        name: nameRef.current.value,
+        email: emailRef.current.value,
+        phone: phoneRef.current.value,
+        clearance: clearanceRef.current.value,
+        message: messageRef.current.value,
+        date: dayjs().format("MMM D, YYYY"),
+      })
+    })
+      .then((res) => {
+      setPreviousUser([
+          ...previousUser,
+          {
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            phone: phoneRef.current.value,
+          },
+        ]);
+
+        if (nameRef.current) nameRef.current.value = "";
+        if (emailRef.current) emailRef.current.value = "";
+        if (phoneRef.current) phoneRef.current.value = "";
+        if (messageRef.current) messageRef.current.value = "";
+        if (clearanceRef.current) clearanceRef.current.value = "";
+
+        setMessage({
+          nameMessage: {
+            result: "",
+            empty: false,
+            invalid: false,
+          },
+          emailMessage: {
+            result: "",
+            empty: false,
+            invalid: false,
+          },
+          phoneMessage: {
+            result: "",
+            empty: false,
+            invalid: false,
+          },
+        });
+        setIsSent(true);
+        setIsFailed(false);
+        setEmailErrorShown(false);
+        setPhoneErrorShown(false);
+        setNameErrorShown(false);
+        console.log(res.json())
+    }).catch((err) => console.log("Failed to send message: " + err))
       .finally(() => setIsSending(false));
     },
-    [isSending]
+    [isSending, language]
   );
 
   const handleRemoveModal = useCallback(() => {
@@ -182,6 +244,17 @@ export default function UserDetailsProvider({ children }) {
     setIsSending(false);
     handleCloseModal();
   }, []);
+
+  useEffect(() => {
+    CheckMessageLanguage(
+      message,
+      language,
+      setMessage,
+      nameErrorShown,
+      emailErrorShown,
+      phoneErrorShown
+    )
+  }, [language])
 
   useEffect(() => {
     if (!isSent) return;

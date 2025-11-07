@@ -6,7 +6,8 @@ export default function CheckIsAllFieldsEmpty(
   setIsFailed,
   setNameErrorShown,
   setEmailErrorShown,
-  setPhoneErrorShown
+  setPhoneErrorShown,
+  language
 ) {
   if (
     !nameRef.current.value &&
@@ -15,17 +16,17 @@ export default function CheckIsAllFieldsEmpty(
   ) {
     setMessage({
       nameMessage: {
-        result: "Name is required",
+        result: language.arabic ? "الاسم مطلوب" : "Name is required",
         empty: true,
         invalid: false,
       },
       emailMessage: {
-        result: "Email is required",
+        result: language.arabic ? "البريد الإلكتروني مطلوب" : "Email is required",
         empty: true,
         invalid: false,
       },
       phoneMessage: {
-        result: "Phone number is required",
+        result: language.arabic ? "رقم الهاتف مطلوب" : "Phone number is required",
         empty: true,
         invalid: false,
       },
@@ -34,7 +35,6 @@ export default function CheckIsAllFieldsEmpty(
     setNameErrorShown(true);
     setEmailErrorShown(true);
     setPhoneErrorShown(true);
-    console.log("all fields are empty");
     return true;
   }
   return false;
