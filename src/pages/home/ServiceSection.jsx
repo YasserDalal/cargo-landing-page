@@ -3,6 +3,7 @@ import { faTruck } from "@fortawesome/free-regular-svg-icons";
 import AirplaneIcon from "../../assets/regular-icons/AirplaneIcon.png";
 import ShipIcon from "../../assets/regular-icons/ShipIcon.png";
 import { useLanguage } from '../../context/ContextHooks'
+import { Link } from 'react-router-dom';
 
 function HeaderService() {
   const { language } = useLanguage();
@@ -40,9 +41,9 @@ function ServicesCards({ className, icon, title, description, imageIcon, alt, le
         </p>
       </div>
       <div className='w-full pt-10'>
-        <button className='text-center w-full bg-[#018758] hover:bg-[#01a36b] transition-all duration-100 py-2 rounded-md cursor-pointer'>
+        <Link to='/services' className='block text-center w-full bg-[#018758] hover:bg-[#01a36b] transition-all duration-100 py-2 rounded-md cursor-pointer'>
           {learnMore}
-        </button>
+        </Link>
       </div>
     </div>
   );
