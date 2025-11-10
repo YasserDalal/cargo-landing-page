@@ -30,8 +30,8 @@ function Wrapper({ children }) {
         {(showModal && !isSending) &&
           <DarkModal onClick={handleRemoveModal}>
             {(isSent && didClickSubmit)
-              ? <SuccessModal className={`toast toast-end z-[99]`} />
-              : (isFailed && didClickSubmit) && <FailedModal className={`toast toast-end z-[99]`} />
+              ? <SuccessModal />
+              : (isFailed && didClickSubmit) && <FailedModal />
             }
           </DarkModal>
         }
