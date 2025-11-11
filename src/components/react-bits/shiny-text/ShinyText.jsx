@@ -1,8 +1,9 @@
 import "./ShinyText.css";
+import { useLanguage } from '../../../context/ContextHooks'
 
 const ShinyText = ({ text, disabled = false, speed = 5, className = "" }) => {
   const animationDuration = `${speed}s`;
-
+  const { language } = useLanguage();
   return (
     <h3
       className={`bg-clip-text inline-block ${
@@ -15,6 +16,7 @@ const ShinyText = ({ text, disabled = false, speed = 5, className = "" }) => {
         WebkitBackgroundClip: "text",
         backgroundClip: "text",
         animationDuration: animationDuration,
+        animationDirection: language.english ? "normal" : "reverse",
       }}
     >
       {text}

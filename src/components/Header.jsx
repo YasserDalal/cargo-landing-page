@@ -1,64 +1,29 @@
 import { NavLink } from "react-router-dom";
 import FiveStarLogo from "../assets/FiveStarLogo.png";
-import FiveStarLogoSingle from "../assets/FiveStarLogoSingle.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
-import { faHouse } from "@fortawesome/free-regular-svg-icons";
-import ServiceIconWhite from "../assets/regular-icons/ServiceIcon.png";
-import ServiceIconBlue from "../assets/regular-icons/BoxIcon.png";
-import PhoneIconWhite from "../assets/regular-icons/PhoneIconWhite.png";
-import PhoneIconBlue from "../assets/regular-icons/PhoneIcon.png";
-import useDefaultRoute from '../hooks/useDefaultRoute';
-
-const handleActive = ({ isActive }) => {
-  return isActive
-    ? "text-[#80ACFA] p-2 min-[418px]:px-4 flex items-center gap-x-2"
-    : "text-white p-2 min-[418px]:px-4 hover:text-[#b5d0ff] transition-all duration-100 flex items-center gap-x-2";
-};
-
-const navLinks = [
-  {
-    icon: faHouse,
-    alt: "Home Icon",
-    title: "Home",
-    to: "home",
-  },
-  {
-    imgSrcWhite: ServiceIconWhite,
-    imgSrcBlue: ServiceIconBlue,
-    alt: "Services Icon",
-    title: "Services",
-    to: "services",
-  },
-  {
-    imgSrcWhite: PhoneIconWhite,
-    imgSrcBlue: PhoneIconBlue,
-    alt: "Phone Icon",
-    title: "Contacts",
-    to: "contacts",
-  },
-];
+import { useHeaderProvider } from "../context/ContextHooks";
+import openGmail from '../helpers/openGmail'
+import navigateToWhatsapp from '../helpers/navigateToWhatsapp'
+import { useLanguage } from '../context/ContextHooks';
 
 function NavButtons({ icon, alt, imgSrcWhite, imgSrcBlue, to, title }) {
-  const defaultRoute = useDefaultRoute();
-
-  const handleFocus = () => {
-    document.activeElement.blur();
-  };
+  const { handleActive, handleFocus, defaultRoute } = useHeaderProvider()
+  const { language } = useLanguage();
   return (
     <NavLink to={to} className={handleActive} onClick={handleFocus}>
       {({ isActive }) => (
         <div
-          className={`flex items-center space-x-2 ${
+          className={`flex items-center gap-2 text-[16px] ${
             isActive ? "text-blue-400" : "text-[#F4F4F4]"
-          }`}
+          } ${language.arabic && 'w-full flex-row-reverse text-right'}`}
         >
           {imgSrcWhite || imgSrcBlue ? (
             <img
               src={isActive ? imgSrcBlue : imgSrcWhite}
               alt={alt}
-              className='ml-[3px] w-[14px]'
+              className='w-[18px] mr-[3px] ml-[3px]'
             />
           ) : (
             <FontAwesomeIcon
@@ -68,7 +33,7 @@ function NavButtons({ icon, alt, imgSrcWhite, imgSrcBlue, to, title }) {
             />
           )}
           <span
-            className={defaultRoute && title === "Home" ? "text-[#80ACFA]" : undefined}
+            className={`text-lg ${defaultRoute && title === "Home" ? "text-[#80ACFA]" : undefined}`}
           >
             {title}
           </span>
@@ -78,11 +43,26 @@ function NavButtons({ icon, alt, imgSrcWhite, imgSrcBlue, to, title }) {
   );
 }
 
+function DropdownMenu({ children }) {
+  const { isScrollDown, handleFocus } = useHeaderProvider();
+  const { language } = useLanguage();
+  return (
+    <ul
+      tabIndex={0}
+      className={`${language.arabic && 'absolute right-0'} menu dropdown-content menu-sm bg-base-100 rounded-box z-1 mt-3 w-72 p-2 text-xl shadow border-2 border-[#323747]`}
+      onBlur={isScrollDown ? handleFocus() : undefined}
+    >
+      {children}
+    </ul>
+  )
+}
+
 function NavMenu({ className }) {
+  const { navLinks } = useHeaderProvider();
   return (
     <div className={className}>
       <div className='navbar-start'>
-        <div className='dropdown'>
+        <div className='dropdown relative'>
           <div
             tabIndex={0}
             role='button'
@@ -105,9 +85,7 @@ function NavMenu({ className }) {
               />{" "}
             </svg>
           </div>
-          <ul
-            tabIndex={0}
-            className='menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow border-2 border-[#323747]'
+          <DropdownMenu
           >
             {navLinks.map((link, index) => (
               <li key={index}>
@@ -121,66 +99,130 @@ function NavMenu({ className }) {
                 />
               </li>
             ))}
-          </ul>
+          </DropdownMenu>
         </div>
       </div>
     </div>
   );
 }
 
-function MainLogo() {
+function MainLogo({ className }) {
+  const { handleLogoClick } = useHeaderProvider();
   return (
     <>
-      <div className='min-w-10 max-w-11 w-full min-[680px]:hidden'>
-        <img src={FiveStarLogoSingle} alt='five star logo' typeof='image' />
-      </div>
-      <div className='max-w-44 max-[680px]:hidden'>
-        <img src={FiveStarLogo} alt='five star logo' typeof='image' />
+      <div className={className}>
+        <img src={FiveStarLogo} alt='five star logo' typeof='image' onClick={handleLogoClick} className='cursor-pointer'/>
       </div>
     </>
   );
 }
 
-function Navigations({ className }) {
-  const defaultRoute = useDefaultRoute();
-
+function Navigation() {
+  const { handleActive, defaultRoute } = useHeaderProvider();
+  const { language } = useLanguage();
   return (
-    <nav className={className}>
+    <nav className={`flex ${language.arabic ? 'flex-row-reverse mr-auto' : 'ml-auto'} max-[529px]:gap-0 gap-3 max-[950px]:hidden justify-center min-w-[320px]`}>
       <NavLink className={handleActive} to='home'>
-        <span className={defaultRoute ? "text-[#80ACFA]" : undefined}>Home</span>
+        <span className={defaultRoute ? "text-[#80ACFA]" : undefined}>{
+          language.arabic ? 'الرئيسية' : 'Home'
+        }</span>
       </NavLink>
       <NavLink className={handleActive} to='services'>
-        <span>Services</span>
+        <span>{
+          language.arabic ? 'الخدمات' : 'Services'
+        }</span>
       </NavLink>
       <NavLink className={handleActive} to='contacts'>
-        <span>Contacts</span>
+        <span>{
+          language.arabic ? 'جهات الاتصال' : 'Contacts'
+        }</span>
       </NavLink>
     </nav>
   );
 }
 
-function ReachOuts({ className }) {
+function ContactUs() {
+  const { language } = useLanguage();
   return (
-    <div className={className}>
-      <button className='py-2 px-4 cursor-pointer bg-transparent hover:bg-[#1a1a1a] transition-all duration-100 border border-[#323747] rounded-md flex items-center gap-x-2 text-nowrap'>
-        <FontAwesomeIcon icon={faEnvelope} size='md' />
-        <span className='max-[800px]:hidden'>Contact Us</span>
-      </button>
-      <button className='py-2 pr-4 pl-3 cursor-pointer bg-[#065ae9] hover:bg-[#317dff] transition-all duration-100 rounded-md flex items-center gap-x-2 text-nowrap '>
-        <FontAwesomeIcon icon={faPhone} size='md' />
-        <span className='max-[529px]:hidden'>Call Us</span>
-      </button>
+    <button className='py-2 px-4 cursor-pointer bg-transparent hover:bg-[#1a1a1a] transition-all duration-100 border border-[#323747] rounded-md flex items-center gap-x-2 text-nowrap' onClick={openGmail}>
+      <FontAwesomeIcon icon={faEnvelope} size='md' />
+      <span className='max-[815px]:hidden'>{ language.english ? 'Contact Us' : language.arabic && 'اتصل بنا'}</span>
+    </button>
+  );
+}
+
+function CallUs() {
+  const { language } = useLanguage();
+  return (
+    <button
+      className='py-2 pr-4 pl-3 cursor-pointer bg-[#065ae9] hover:bg-[#317dff] transition-all duration-100 rounded-md flex items-center gap-x-2 text-nowrap '
+      onClick={navigateToWhatsapp}
+    >
+      <FontAwesomeIcon icon={faPhone} size='md' />
+      <span className={`${language.arabic ? 'max-[700px]:hidden' : 'max-[529px]:hidden'}`}>{ language.english ? "Call Us" : language.arabic && 'اتصل بنا هاتفيًا'}</span>
+    </button>
+  );
+}
+
+function ReachOuts({ children }) {
+  const { language } = useLanguage();
+  return (
+    <div className={`flex ${language.arabic && 'flex-row-reverse pr-4'} gap-2`}>
+      {children}
     </div>
   );
 }
 
-export default function Header({ className }) {
+function LanguageButton() {
+  const { handleLanguage } = useLanguage();
+  const { language } = useLanguage();
   return (
-    <div className={className}>
-      <NavMenu className='min-[400px]:hidden' />
-      <MainLogo />
-      <Navigations className='flex max-[529px]:gap-0 gap-3 max-[400px]:hidden' />
-      <ReachOuts className='flex gap-2' />
+    <label className={`swap ${language.arabic ? 'mr-auto' : 'ml-auto'} w-20 h-10`}>
+      <input type="checkbox" onClick={handleLanguage} className='px-10 py-5 hover:bg-neutral-700 transition-all duration-200 rounded-full' name='toggle-button' id='button'/>
+      <div className='swap-on flex items-center justify-center'>
+        <div className="text-center">English</div>
+      </div>
+      <div className='swap-off flex items-center justify-center'>
+        <div className="text-center">العربية</div>
+      </div>
+    </label>
+  )
+}
+
+function NavigationContainer({ children }) {
+  const { language } = useLanguage();
+  return (
+    <div className={`flex ${language.arabic ? 'flex-row-reverse' : 'mr-3'} justify-center flex-1 gap-5`}>
+      {children}
     </div>
+  )
+}
+
+function HeaderContainer({ children }) {
+  const { isScrollDown } = useHeaderProvider();
+  const { language } = useLanguage();
+  return (
+    <div className={`flex ${language.arabic && 'flex-row-reverse'} justify-between items-center bg-black ${isScrollDown ? '-translate-y-20' : ''} transition-all duration-200 text-white py-2 fixed w-full z-50 max-[529px]:px-2 px-6`}>
+      {children}
+    </div>
+  )
+}
+
+export default function Header() {
+  return (
+    <HeaderContainer>
+      <NavMenu className='min-[950px]:hidden' />
+      <div className='max-w-[300px] w-full flex justify-center max-[500px]:px-5'>
+        <MainLogo className='max-w-36 pr-3 max-[400px]:hidden' />
+      </div>
+      <NavigationContainer>
+        <Navigation />
+        <LanguageButton />
+      </NavigationContainer>
+      <ReachOuts>
+        <ContactUs />
+        <CallUs />
+      </ReachOuts>
+    </HeaderContainer>
   );
 }
