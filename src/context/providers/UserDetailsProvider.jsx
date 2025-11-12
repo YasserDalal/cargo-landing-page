@@ -121,7 +121,6 @@ export default function UserDetailsProvider({ children }) {
 
     setIsSending(true);
 
-    /*
     const templateParams = {
       name: nameRef.current.value,
       email: emailRef.current.value,
@@ -178,8 +177,9 @@ export default function UserDetailsProvider({ children }) {
         setNameErrorShown(false);
       })
       .catch((err) => console.log("Failed to send message: " + err))
-      .finally(() => setIsSending(false)); */
+      .finally(() => setIsSending(false));
     
+    /*
     fetch('https://68f89512deff18f212b69b87.mockapi.io/messages', {
       header: {
         "Content-Type": "application/json",
@@ -235,6 +235,7 @@ export default function UserDetailsProvider({ children }) {
         console.log(res.json())
     }).catch((err) => console.log("Failed to send message: " + err))
       .finally(() => setIsSending(false));
+      */
     },
     [isSending, language]
   );

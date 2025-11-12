@@ -1,8 +1,5 @@
 export default function openGmail() {
-  const subject = 'Inquiry'
-  const body = 'Hello! I want to ask about...'
+  const gmailLink = `https://mail.google.com/mail/u/0/#inbox?compose=${import.meta.env.VITE_EMAIL_ID}`;
 
-  const mailtoLink = `mailto:${import.meta.env.VITE_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-
-  window.location.href = mailtoLink
+  window.open(gmailLink, '_blank');
 }
