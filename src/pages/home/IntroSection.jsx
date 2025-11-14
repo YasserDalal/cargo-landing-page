@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Hero from "../../assets/Hero.png";
 import { useLanguage } from '../../context/ContextHooks'
+import LightRays from '../../components/background/LightRays';
 
 function Intro({ className }) {
   const { language } = useLanguage();
@@ -44,7 +45,19 @@ function HeroImage({ className, Hero }) {
 export default function IntroSection() {
   const { language } = useLanguage();
   return (
-    <div className={`flex ${language.arabic && 'flex-row-reverse text-right'} bg-[#03193F] justify-evenly items-center min-h-[653px] h-full max-[1130px]:h-auto max-[1130px]:px-10 px-5 pb-16 max-[1130px]:flex-col`}>
+    <div className={`flex ${language.arabic && 'flex-row-reverse text-right'} justify-evenly items-center min-h-[653px] h-full max-[1130px]:h-auto max-[1130px]:px-10 px-5 pb-16 max-[1130px]:flex-col relative`}>
+      <LightRays
+        raysOrigin="top-center"
+        raysColor="#00ffff"
+        raysSpeed={1.5}
+        lightSpread={1}
+        rayLength={10}
+        followMouse={true}
+        mouseInfluence={0.1}
+        noiseAmount={0.1}
+        distortion={0.06}
+        className="custom-rays"
+      />
       <Intro className={`min-[1130px]:max-w-[590px] pt-[30px] ${language.arabic ? 'min-[1130px]:pl-5' : 'min-[1130px]:pr-5'} max-[1130px]:mt-16 flex justify-center`} />
       <HeroImage
         Hero={Hero}
